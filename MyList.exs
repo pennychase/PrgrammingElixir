@@ -24,8 +24,8 @@ defmodule MyList do
     def span(from, to), do: [from | span(from+1, to)]
     
     def my_flatten([]), do: []
-    def my_flatten([[h]| tail]), do: [my_flatten h] ++ my_flatten tail
-    def my_flatten([h | tail]), do: [h | my_flatten tail]
+    def my_flatten([head | tail]) when is_list(head), do: (my_flatten head) ++ (my_flatten tail)
+    def my_flatten([head | tail]), do: [head | my_flatten tail]
 
     def concat([]), do: []
     def concat([head | tail]), do: head ++ (concat tail)
