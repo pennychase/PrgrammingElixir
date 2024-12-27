@@ -21,5 +21,12 @@ defmodule MyString do
             {{str, len}, max(len, acc)} end)
     end
 
+    def capitalize_sentences(sentences) do
+      sentences
+        |> String.split(". ")
+        |> Enum.map(&String.capitalize(&1))
+        |> Enum.intersperse(". ")
+        |> List.foldr("", &(&1 <> &2))
+    end
 
 end
