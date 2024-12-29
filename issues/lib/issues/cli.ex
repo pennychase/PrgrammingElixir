@@ -1,7 +1,7 @@
 defmodule Issues.CLI do
 
   import Issues.TableFormatter, only: [print_table_for_columns: 2]
-  
+
   @default_count 4
 
   @moduledoc """
@@ -10,7 +10,7 @@ defmodule Issues.CLI do
   issues in a github repository.
   """
   
-  def run(argv) do
+  def main(argv) do
     argv
       |> parse_args
       |> process
@@ -31,7 +31,7 @@ defmodule Issues.CLI do
   end
 
   def args_to_internal_representation([user, project, count]) do
-    { user, project, count }
+    { user, project, String.to_integer(count) }
   end
 
   def args_to_internal_representation([user, project]) do
