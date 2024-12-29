@@ -18,11 +18,9 @@ defmodule Issues.CLI do
 
   @doc """
   `argv` can be -h or --help, which returns :help
-
-  Otherwise it is a github user name, project name, and (optionally)
+  \nOtherwise it is a github user name, project name, and (optionally)
   the number of entries to format. 
-
-  Return a tuple of `{user, project, count}` or :help
+  \nReturn a tuple of `{user, project, count}` or :help
   """
   def parse_args(argv) do
     OptionParser.parse(argv, switches: [help: :boolean], aliases: [h: :help])

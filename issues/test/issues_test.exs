@@ -12,7 +12,7 @@ defmodule IssuesTest do
   end 
 
   test "three values returned if three are given" do
-    assert parse_args(["user", "project", 99]) == {"user", "project", 99}
+    assert parse_args(["user", "project", "99"]) == {"user", "project", 99}
   end 
 
   test "default value for count if two arguments are given" do
