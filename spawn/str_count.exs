@@ -1,10 +1,3 @@
-# File.ls! -> list of filenames -> to_process argument
-# For each argument (pass to process):
-#   Test if file is :regular
-#   Use File.read! to get file contents
-#   Count occurances of str: Regex.scan(~r"#{str}", file_contents) |> length
-
-
 defmodule StrCount do
 
    def count(scheduler) do
@@ -63,6 +56,11 @@ is_regular = fn path ->
 
 files = File.ls! |> Enum.filter(&is_regular.(&1))
 
-result = Scheduler.run(10, StrCount, :count, files)
-
-IO.puts inspect result
+Enum.each 1..10, fn num_processes ->
+  { time, result } = :timer.tc(Scheduler, :run, [num_processes, StrCount, :count, files] )
+  if num_processes == 1 do
+    IO.puts inspect result
+    IO.puts "\nTime:  #{time}"
+  end
+  :io.format("~2B     ~.4f~n", [num_processes, time/1000000.0])
+end
