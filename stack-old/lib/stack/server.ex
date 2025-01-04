@@ -4,8 +4,8 @@ defmodule Stack.Server do
 
   ### Client API
 
-  def start_link(_) do
-    GenServer.start_link(__MODULE__, nil, name: __MODULE__)
+  def start_link(current_number) do
+    GenServer.start_link(__MODULE__, current_number, name: __MODULE__)
   end
 
   def pop do
@@ -20,7 +20,7 @@ defmodule Stack.Server do
   ### Stack Server Callbacks
 
   def init(initial_stack) do
-    { :ok, Stack.Stash.get() } 
+    { :ok, initial_stack } 
   end
    
   def handle_call(:pop, _from, [ top | rest ]) do
@@ -31,9 +31,8 @@ defmodule Stack.Server do
     { :noreply, [ value | current_stack] }
   end
 
-  def terminate(reason, current_number) do
-    Sequence.Stash.update(current_number)
+  def terminate(reason, state) do
+    IO.puts "Server error: Reason(#{inspect reason}, State(#{inspect state})"
   end
-    
 
 end
