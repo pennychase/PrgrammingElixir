@@ -6,10 +6,10 @@ defmodule Stack.Application do
   use Application
 
   @impl true
-  def start(_type, _args) do
+  def start(_type, initial_stack) do
     children = [
       # Starts a worker by calling: Stack.Worker.start_link(arg)
-      {Stack.Stash, []},
+      {Stack.Stash, initial_stack},
       {Stack.Server, nil}
     ]
 

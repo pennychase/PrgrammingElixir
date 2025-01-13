@@ -16,6 +16,10 @@ defmodule Stack.Server do
     GenServer.cast(__MODULE__, {:push, value})
   end
 
+  def show do
+    GenServer.call(__MODULE__, :show)
+  end
+
 
   ### Stack Server Callbacks
 
@@ -25,6 +29,10 @@ defmodule Stack.Server do
    
   def handle_call(:pop, _from, [ top | rest ]) do
     { :reply, top, rest}
+  end
+
+  def handle_call(:show, _from, current_stack) do
+    { :reply, current_stack, current_stack}
   end
 
   def handle_cast({ :push, value }, current_stack) do
