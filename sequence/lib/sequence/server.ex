@@ -2,7 +2,11 @@ defmodule Sequence.Server do
   
   use GenServer
 
-  @vsn "0"
+  @vsn "1"
+
+  defmodule State do
+    defstruct(current_number: 0, delta: 1)
+  end
 
   #### External API
 
@@ -21,16 +25,17 @@ defmodule Sequence.Server do
 
   #### GenServer callback with Stash
 
-  def init(initial_number) do
-    { :ok, Sequence.Stash.get() }
+  def init(_) do 
+    state = %State{ current_number: Sequence.Stash.get() }
+    { :ok, state }
   end
 
-  def handle_call(:next_number, _from, current_number) do
-    { :reply, current_number, current_number + 1 } 
+  def handle_call(:next_number, _from, state = %{current_number: n}) do
+    { :reply, n, %{state | current_number: n + state.delta } }
   end
 
-  def handle_cast({:increment_number, delta }, current_number) do
-    { :noreply, current_number + delta }   
+  def handle_cast({:increment_number, delta }, state) do
+    { :noreply, %{state | delta: delta} }   
   end
 
   def terminate(reason, current_number) do
